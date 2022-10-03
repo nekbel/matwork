@@ -25,3 +25,6 @@ miranta/RNA/bws/*
 !miranta/RNA/comprna/
 miranta/RNA/comprna/*
 !miranta/RNA/comprna/RNA1MIRANTAWT1.log2ratio.bw
+ATAC_data/
+KOvsWT.complete.txt
+manolis/
