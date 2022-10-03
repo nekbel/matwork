@@ -13,13 +13,23 @@ org=$1
 orgfull=''
 input=$2
 
-if [ "$org" == 'mm10' ]; then
+if [[ "$org" == *'mm'* ]]; then
     orgfull='Mus_musculus'
-elif [ "$org" == 'rn6' ]; then
+elif [[ "$org" == *'rn'* ]]; then
     orgfull='Rattus_norvegicus'
+elif [[ "$org" == *'hg'* ]]; then
+    orgfull='Homo_sapiens'
+elif [[ "$org" == *'ce'* ]]; then
+    orgfull='Caenorhabditis_elegans'
+elif [[ "$org" == *'sacCer'* ]]; then
+    orgfull='Saccharomyces_cerevisiae'
+elif [[ "$org" == *'dm'* ]]; then
+    orgfull='Drosophila_melanogaster'
+elif [[ "$org" == *'danRer'* ]]; then
+    orgfull='Danio_rerio'
 else
     echo 'ERROR: wrong organism name provided (USCS version)'
-    exit 0
+    exit 1
 fi
 
 refgen="/home/myrto/work/refs/${orgfull}/UCSC/${org}/"
