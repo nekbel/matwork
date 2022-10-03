@@ -3,7 +3,7 @@
 touch tracks.txt
 color=''
 n=''
-
+url=$(pwd | sed "s|/home/myrto/work|https://raw.githubusercontent.com/nekbel/matwork/main|")
 for fn in ./*.bw; do
     eval "n=$(echo $fn | cut -c3-)"
 
@@ -12,5 +12,5 @@ for fn in ./*.bw; do
     else
         eval "color=0,255,0"
     fi
-    echo "track type=bigWig name=${n%.*} description=${n%.*} visibility=full bigDataUrl=http://139.91.171.49/Lavigne/Nektarios/tracks/miranta_PV/${n} color=${color}" >> tracks.txt
+    echo "track type=bigWig name=${n%.*} description=${n%.*} visibility=full bigDataUrl=${url}/${n} color=${color}" >> tracks.txt
     done
