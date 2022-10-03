@@ -19,9 +19,9 @@ nek/ATAC_seq/*
 refs/scripts/*
 !refs/scripts/KallistoIndexGen.sh
 !refs/scripts/STARIndexGen.sh
+!miranta/RNA/bws/
+miranta/RNA/bws/*
+!miranta/RNA/bws/tracks.sh
 !miranta/RNA/comprna/
 miranta/RNA/comprna/*
 !miranta/RNA/comprna/RNA1MIRANTAWT1.log2ratio.bw
-ATAC_data/
-KOvsWT.complete.txt
-manolis/
