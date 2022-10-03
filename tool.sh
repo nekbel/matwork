@@ -16,7 +16,7 @@ input=$2
 if [ "$org" == 'mm10' ]; then
     orgfull='Mus_musculus'
 elif [ "$org" == 'rn6' ]; then
-    orgfull='Rattus_Norvegicus'
+    orgfull='Rattus_norvegicus'
 else
     echo 'ERROR: wrong organism name provided (USCS version)'
     exit 0
