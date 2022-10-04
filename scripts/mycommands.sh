@@ -1,1 +1,0 @@
-/home/myrto/.nek_bash_commands.sh
