@@ -4,6 +4,9 @@
 # Main rnaseq pipeline
 ##########################
 
+# Miranta library type -> ISR Inward Stranded Reverse
+# Carullo library type -> ISR
+
 # SCRIPTS USED:
 #       orgUCSC
 source ~/.nek_bash_commands.sh
@@ -48,7 +51,7 @@ while IFS="" read -r line || [ -n "$line" ]; do
     # Other species may require significant modifications of some alignment 
     # parameters; in particular, the maximum and minimum intron sizes have 
     # to be reduced for organisms with smaller introns”.
-    
+
     # allign using STAR
     STAR    --genomeDir ${gen_path}/Sequence/STARIndex \
 		--readFilesIn ./trimmed_fqs/${line}*.fq \

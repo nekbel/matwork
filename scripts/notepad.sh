@@ -62,6 +62,15 @@ grep -rnwl ./ -e 'SRR11785646'
 
 
 ##########################
+# change suffix of files
+##########################
+for f in ./*.txt
+do
+  echo $f | sed 's/txt/fq/g'
+done
+
+
+##########################
 # GIT
 # Matwork Repository
 ##########################
@@ -122,79 +131,149 @@ bowtie2 --local -X 3000 -p 25 -x /home/myrto/work/refs/Homo_sapiens/UCSC/hg19/Se
 
 
 ##########################
-# track comp hub 
+# grep
 ##########################
-track type=bigWig name=RNA_MIRANTA_KO.sorted.merged description=RNA_MIRANTA_KO.sorted.merged visibility=full bigDataUrl=http://139.91.171.49/Lavigne/Nektarios/tracks/miranta_PV/RNA_MIRANTA_KO.sorted.merged.bw color=0,255,0
-track type=bigWig name=RNA_MIRANTA_WT.sorted.merged description=RNA_MIRANTA_WT.sorted.merged visibility=full bigDataUrl=http://139.91.171.49/Lavigne/Nektarios/tracks/miranta_PV/RNA_MIRANTA_WT.sorted.merged.bw color=255,0,0
-
-hub MirantaHub
-shortLabel Miranta Hub
-longLabel RNA and ATAC runs on the Miranta files
-useOneFile on
-email nek.belmezos@gmail.com
-
-genome mm10
-
-track ComparisonKOWT
-type bigWig
-container multiWig
-visibility full
-aggregate transparentOverlay
-showSubtrackColorOnUi on
-maxHeightPixels 500:100:8
-
-        track KO
-        type bigWig
-        bigDataUrl http://139.91.171.49/Lavigne/Nektarios/tracks/miranta_PV/RNA_MIRANTA_KO.sorted.merged.bw
-        parent ComparisonKOWT
-        color 70,250,150
-
-        track WT
-        type bigWig
-        bigDataUrl http://139.91.171.49/Lavigne/Nektarios/tracks/miranta_PV/RNA_MIRANTA_WT.sorted.merged.bw
-        parent ComparisonKOWT
-        color 207,21,62
+grep
+-B print n lines before match
+-A print n lines after match
+--no-group-separator dont print -- separator between matches
+-n print line number of match
+-v return everything that DOES NOT match
+-c return the number of matches rather than the actual matching lines
+-H report the filename
 
 
 ##########################
-# Hub track example
+# sort
 ##########################
-track multiWig1
-type bigWig
-container multiWig
-shortLabel Ex. multiWig container
-longLabel This multiWig overlay track graphs points from three bigWig files.
-visibility full
-aggregate transparentOverlay
-showSubtrackColorOnUi on
-maxHeightPixels 500:100:8
-viewLimits 1:20
-priority 1
-html examplePage
+sort 
+-k which column to sort by
+-u only return unique values
 
-				track wig1
-				bigDataUrl http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeCshlLongRnaSeq/wgEncodeCshlLongRnaSeqA549CellLongnonpolyaMinusRawSigRep1.bigWig
-				shortLabel Overlay bigWig1
-				longLabel This is an example bigWig1 displaying Raw Signal from the ENCODE RNA-seq CSHL track, graphing just points as default.
-				parent multiWig1
-				graphTypeDefault points
-				type bigWig
-				color 255,0,0
 
-				track wig2
-				bigDataUrl http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeCshlLongRnaSeq/wgEncodeCshlLongRnaSeqA549CellLongnonpolyaPlusRawSigRep1.bigWig
-				shortLabel Overlay bigWig2
-				longLabel This is an example bigWig2 displaying Raw Signal from the ENCODE RNA-seq CSHL track, graphing just points as default.
-				graphTypeDefault points
-				parent multiWig1
-				type bigWig
-				color 0,255,0
+##########################
+# scp and rsync
+##########################
+scp [OPTION] [user@]SRC_HOST:]file1 [user@]DEST_HOST:]file2
 
-				track wig3
-				bigDataUrl http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeCshlLongRnaSeq/wgEncodeCshlLongRnaSeqAg04450CellLongnonpolyaPlusRawSigRep1.bigWig
-				shortLabel Overlay bigWig3
-				longLabel This is an example bigWig3 displaying Raw Signal from the ENCODE RNA-seq CSHL track, graphing just points as default. 
-				graphTypeDefault points
-				parent multiWig1
-				type bigWig
-				color 95,158,160
+rsync works similarly to scp.
+-v 	verbosity (it prints on the screen what is being copied)
+
+-e 	ssh is for encryption (use the ssh protocol 
+	for encryption of the file transfer)
+
+
+##########################
+# basename
+##########################
+samplename=`basename <path.to.fq> .fq`
+# retrieve filename without leading directories (prefix). 
+# Also remove specified suffix
+
+
+##########################
+# .bashrc and .profile
+##########################
+.bashrc and .bash_profile located on ~
+# You only log in once, and that's when ~/.bash_profile or ~/.profile is read and executed. 
+# environment variables (LESS, PATH, MANPATH, LC_*, ...) e.g. 
+# On the next runned shells, your environment variables will be passed along, so your non-login 
+# shells don't need to load them anymore
+# Non-login shells only execute ~/.bashrc, not /.profile or ~/.bash_profile, for this exact reason, 
+# define everything that only applies to bash (functions, aliases, bash-only variables like HISTSIZE 
+# (this is not an environment variable, shell options with set and shopt
+# You'll need to add in my ~/.profile too: source ~/.bashrc.
+.bashrc vs .bash_profile
+# .bash_profile is executed for login shells, while .bashrc is executed for interactive non-login shells. 
+# When you login (type username and password) to O2 the .bash_profile is executed. So if you want the alias 
+# available only when you login, you will want to put it in your .bash_profile.
+
+
+##########################
+# wget files & dirs
+##########################
+wget
+-r/--recursive 
+-np/--no-parent & -nd no parent directories 
+-R "index.html*" reject this file
+
+
+##########################
+# curl individual file (not dirs)
+##########################
+curl
+-O will save the file in the current working directory with the same file name as remote. 
+-o lets you specify a different file name or location
+-l list contents (directory -> directories and files)
+				 (file -> print content in stdout)
+
+
+##########################
+# curl hack for ensembl
+# returs list of files and 
+# directories contained
+##########################
+curl -l <ftp.link> | grep href= |
+head -n -1 | sed 's/<a href="//g' | egrep -o '^.+"' | sed 's/.$//' | tail -n +2
+
+##########################
+# salmon
+##########################
+salmon quant -i /n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/indicies/salmon_index \
+ -l A \
+ -r $fq \
+ -o ${samplename}.salmon \
+ -p 6 \
+ --numBootstraps 30 \
+ --seqBias \
+ --useVBOpt \
+ --validateMappings
+
+# qualimap before so u can add 
+--gcBias to learn and correct for fragment-level GC biases in the input data
+--posBias will enable modeling of a position-specific fragment start distribution
+
+##########################
+# qualimap
+##########################
+qualimap rnaseq \
+-outdir results/qualimap/Mov10_oe_1 \
+-a proportional \
+-bam results/STAR/Mov10_oe_1_Aligned.sortedByCoord.out.bam \
+-p strand-specific-reverse \
+-gtf /n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/reference_data/Homo_sapiens.GRCh38.92.gtf \
+--java-mem-size=8G
+
+
+##########################
+# multiqc
+##########################
+multiqc -n multiqc_report_rnaseq \
+full_dataset_results/fastqc/*zip \
+full_dataset_results/STAR/*Log.final.out \
+full_dataset_results/qualimap/* \
+full_dataset_results/salmon/*salmon
+
+
+##########################
+# input arguments bash
+##########################
+sh  run_rnaseq.sh  input.fq  input.gtf  12
+
+$0 => run_rnaseq.sh
+$1 => input.fq
+$2 => input.gtf
+$3 => 12
+
+wrappedProgram "$@"
+# ^^^ this is correct and will hand over all arguments in the way
+#     we received them, i. e. as several arguments, each of them
+#     containing all the spaces and other uglinesses they have.
+wrappedProgram "$*"
+# ^^^ this will hand over exactly one argument, containing all
+#     original arguments, separated by single spaces.
+wrappedProgram $*
+# ^^^ this will join all arguments by single spaces as well and
+#     will then split the string as the shell does on the command
+#     line, thus it will split an argument containing spaces into
+#     several arguments.
